@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html data-ng-app="MagniUniversity" lang="en">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magni University</title>
+    @Scripts.Render("~/bundles/angularjs")
+    @Styles.Render("~/Content/css")
+    @RenderSection("JavascriptHeader", required: false)
+
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <ul class="nav navbar-nav">
+                    <li><a href="/#/course">Course</a></li>
+                    <li><a href="/#/subject">Subject</a></li>
+                    <li><a href="/#/teacher">Teacher</a></li>
+                    <li><a href="/#/student">Student</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+
+    @RenderBody()
+
+</body>
+</html>

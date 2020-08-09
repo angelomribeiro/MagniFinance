@@ -1,0 +1,13 @@
+﻿@{ Layout = "~/Views/Shared/_Layout.cshtml"; }
+@section JavascriptHeader
+{
+    <script src="/app/controllers/subjectController.js"></script>
+    <script src="/app/controllers/courseController.js"></script>
+    <script src="/app/controllers/teacherController.js"></script>
+    <script src="/app/controllers/studentController.js"></script>
+    <script src="/app/services/crudBaseService.js"></script>
+}
+
+<div class="container">
+    <div data-ng-view=""></div>
+</div>
