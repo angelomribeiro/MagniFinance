@@ -1,10 +1,11 @@
 ﻿using MagniUniversity.Data.Entity;
 using System;
+using System.Data.Entity.Migrations;
 using System.Linq;
 
 namespace MagniUniversity.Data.Context
 {
-    public class MagniUniversityInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<MagniUniversityContext>
+    public class MagniUniversityInitializer : System.Data.Entity.CreateDatabaseIfNotExists<MagniUniversityContext>
     {
         protected override void Seed(MagniUniversityContext context)
         {
@@ -16,10 +17,10 @@ namespace MagniUniversity.Data.Context
 
             if (!context.Students.Any())
             {
-                context.Students.Add(student1);
-                context.Students.Add(student2);
-                context.Students.Add(student3);
-                context.Students.Add(student4);
+                context.Students.AddOrUpdate(student1);
+                context.Students.AddOrUpdate(student2);
+                context.Students.AddOrUpdate(student3);
+                context.Students.AddOrUpdate(student4);
             }
             #endregion
 
@@ -28,7 +29,7 @@ namespace MagniUniversity.Data.Context
 
             if (!context.Courses.Any())
             {
-                context.Courses.Add(course1);
+                context.Courses.AddOrUpdate(course1);
             }
             #endregion
 
@@ -37,7 +38,7 @@ namespace MagniUniversity.Data.Context
 
             if (!context.Teachers.Any())
             {
-                context.Teachers.Add(teacher1);
+                context.Teachers.AddOrUpdate(teacher1);
             }
             #endregion
 
@@ -48,9 +49,9 @@ namespace MagniUniversity.Data.Context
 
             if (!context.Subjects.Any())
             {
-                context.Subjects.Add(subject1);
-                context.Subjects.Add(subject2);
-                context.Subjects.Add(subject3);
+                context.Subjects.AddOrUpdate(subject1);
+                context.Subjects.AddOrUpdate(subject2);
+                context.Subjects.AddOrUpdate(subject3);
             }
             #endregion
 
@@ -62,12 +63,14 @@ namespace MagniUniversity.Data.Context
 
             if (!context.Enrollments.Any())
             {
-                context.Enrollments.Add(enrollment1);
-                context.Enrollments.Add(enrollment2);
-                context.Enrollments.Add(enrollment3);
-                context.Enrollments.Add(enrollment4);
+                context.Enrollments.AddOrUpdate(enrollment1);
+                context.Enrollments.AddOrUpdate(enrollment2);
+                context.Enrollments.AddOrUpdate(enrollment3);
+                context.Enrollments.AddOrUpdate(enrollment4);
             }
             #endregion
+
+            base.Seed(context);
         }
     }
 }
