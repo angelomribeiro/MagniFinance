@@ -23,10 +23,12 @@ app.controller('courseController', ['$scope', 'crudBaseService', '$rootScope', '
             Title: ""
         };
         $scope.msgError = '';
+        $scope.showForm = false;
     };
 
     $scope.Save = function () {
-        
+
+        $scope.msgError = '';
         var objForm = $scope.formData;
 
         if (objForm.Title === '') {
@@ -35,7 +37,7 @@ app.controller('courseController', ['$scope', 'crudBaseService', '$rootScope', '
             $scope.msgError = 'The length of Title must be 100 characters.'
         }
 
-        if ($scope.msgError.length == 0) {
+        if ($scope.msgError.length === 0) {
             var $req;
             $req = crudBaseService.Save(objForm);
 
