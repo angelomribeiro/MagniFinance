@@ -1,6 +1,8 @@
-﻿body {
-    padding-top: 50px;
+﻿@import url('https://fonts.googleapis.com/css2?family=PT+Serif&family=Roboto:wght@300&display=swap');
+body {
+    padding-top: 110px;
     padding-bottom: 20px;
+    font-family: 'Roboto', sans-serif!important;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -26,4 +28,44 @@ textarea {
 .actionColumn {
     width: 80px;
     text-align:center;
+}
+.navbar-fixed-top {
+    background-color: rgba(255,255,255,.99);
+    border-bottom: 1px solid #eee;
+    box-shadow: rgba(0,0,0,.1) 0 2px 10px 2px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+.navbar-default {
+    background-color: #ed262a;    
+}
+    .navbar-default .navbar-nav {
+        float: right;
+    }
+    .navbar-default .navbar-nav > li > a {
+        color: #FFF;
+    }
+    .navbar-default .navbar-brand-text {
+        font-family: 'PT Serif', serif;
+        color: #FFF;
+        font-size: 26px;
+    }
+
+.glyphicon-education {
+    font-size: 20px;
+}
+
+
+h2 {
+    font-size: 30px;
+    color: #666;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-info {
+    background-color: #00aeef;
+}
+.btn-danger {
+    background-color: #ed262a;
 }
