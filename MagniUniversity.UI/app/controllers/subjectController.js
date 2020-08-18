@@ -1,9 +1,10 @@
 ﻿'use strict';
 
-app.controller('subjectController', ['$scope', 'crudBaseService', '$rootScope', '$location', function ($scope, crudBaseService, $rootScope, $location) {
+app.controller('subjectController', ['$scope', 'crudBaseService', 'subjectService', function ($scope, crudBaseService, subjectService) {
     
     $scope.objectList = [];
     $scope.objectTeacherList = [];
+    $scope.subjectInformation = {};
     $scope.msgError = "";
     $scope.formData = {};
     $scope.showForm = false;
@@ -67,6 +68,8 @@ app.controller('subjectController', ['$scope', 'crudBaseService', '$rootScope', 
         angular.forEach($scope.studentsForm, function (item) {
             item.Selected = false;
         });
+
+        $scope.subjectInformation = {};
     };
 
     $scope.Save = function () {        
@@ -189,6 +192,23 @@ app.controller('subjectController', ['$scope', 'crudBaseService', '$rootScope', 
         });
     };
     /* end : course */
+
+    /* begin : subject information */
+    $scope.GetSubjectInformation = function (id) {
+        debugger;
+        subjectService.GetSubjectInformation(id).then(function (results) {
+            $scope.subjectInformation = results.data;
+
+            var dlgElem = angular.element("#subjectInformationModal");
+            if (dlgElem) {
+                dlgElem.modal("show");
+            }
+            
+        }, function (error) {
+            bootbox.alert(error.data.message);
+        });
+    };
+    /* end : subject information */
 
     $scope.GetList($scope);
     $scope.GetTeacherList($scope);

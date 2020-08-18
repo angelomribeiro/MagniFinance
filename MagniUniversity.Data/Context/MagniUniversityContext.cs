@@ -1,14 +1,14 @@
 ﻿using MagniUniversity.Data.Entity;
+using MagniUniversity.Data.EntityConfig;
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace MagniUniversity.Data.Context
 {
     public class MagniUniversityContext : DbContext
     {
         public MagniUniversityContext() : base("MagniUniversityContext") 
-        {            
-            Database.SetInitializer(new MigrateDatabaseToLatestVersion<MagniUniversityContext, Migrations.Configuration>());
+        {
+            Database.SetInitializer(new MagniUniversityInitializer());
         }
 
         public DbSet<Course> Courses { get; set; }
@@ -19,7 +19,12 @@ namespace MagniUniversity.Data.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+            modelBuilder.Configurations.Add(new CourseConfig());
+            modelBuilder.Configurations.Add(new EnrollmentConfig());
+            modelBuilder.Configurations.Add(new StudentConfig());
+            modelBuilder.Configurations.Add(new SubjectConfig());
+            modelBuilder.Configurations.Add(new TeacherConfig());
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

@@ -42,5 +42,12 @@ namespace MagniUniversity.UI.Controllers
             _service.Remove(id);
             return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ContentResult Grades(int id)
+        {
+            var list = _service.ListGradeByStudentId(id);
+            return Content(JsonConvert.SerializeObject(list), "application/json");
+        }
     }
 }

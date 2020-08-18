@@ -42,9 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Course.cs" />
+    <Compile Include="Model\CourseDetail.cs" />
     <Compile Include="Model\Student.cs" />
     <Compile Include="Model\Enrollment.cs" />
+    <Compile Include="Model\StudentGrade.cs" />
     <Compile Include="Model\Subject.cs" />
+    <Compile Include="Model\SubjectInformation.cs" />
     <Compile Include="Model\Teacher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IEnrollmentRepository.cs" />

@@ -1,5 +1,6 @@
 ﻿using MagniUniversity.Domain.Model;
 using MagniUniversity.Service.Interface;
+using Newtonsoft.Json;
 using System.Web.Mvc;
 
 namespace MagniUniversity.UI.Controllers
@@ -40,6 +41,13 @@ namespace MagniUniversity.UI.Controllers
         {
             _service.Remove(id);
             return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ContentResult Information(int id)
+        {
+            var list = _service.GetSubjecInformation(id);
+            return Content(JsonConvert.SerializeObject(list), "application/json");
         }
     }
 }

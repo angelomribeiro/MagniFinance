@@ -1,4 +1,6 @@
-﻿namespace MagniUniversity.Domain.Model
+﻿using System.Collections.Generic;
+
+namespace MagniUniversity.Domain.Model
 {
     public class Course
     {

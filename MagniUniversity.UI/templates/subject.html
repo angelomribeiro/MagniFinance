@@ -54,6 +54,7 @@
                 <th>Course</th>
                 <th>Title</th>
                 <th>Teacher</th>
+                <th class="actionColumn"></th>
                 <th></th>
             </tr>
         </thead>
@@ -61,6 +62,9 @@
             <td data-title="Course">{{ o.Course.Title }}</td>
             <td data-title="Title">{{ o.Title }}</td>
             <td data-title="Name">{{ o.Teacher.Name }}</td>
+            <td>
+                <button class="btn btn-primary btn-xs" ng-click="GetSubjectInformation(o.SubjectId)">Show Information</button>
+            </td>
             <td class="actionColumn">
                 <button class="btn btn-info btn-xs" ng-click="OpenForm(o)"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button>
                 <button class="btn btn-danger btn-xs" ng-click="Remove(o.SubjectId)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
@@ -69,3 +73,56 @@
     </table>
 </div>
 <!-- end : list -->
+<!-- begin : subject information -->
+<div id="subjectInformationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Subject Information</h4>
+            </div>
+            <div class="modal-body">
+
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th colspan="3" class="text-center">Teacher</th>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th>Birthday</th>
+                            <th>Salary</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td data-title="Name">{{ subjectInformation.Teacher.Name }}</td>
+                        <td data-title="BirthDay">{{subjectInformation.Teacher.BirthDay | date:'dd/MM/yyyy'}}</td>
+                        <td data-title="Salary">{{subjectInformation.Teacher.Salary}}</td>
+                    </tr>
+                </table>
+
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th colspan="3" class="text-center">Students Grade</th>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tr ng-repeat="o in subjectInformation.StudentGrades">
+                        <td data-title="SubjectTitle">{{ o.StudentName }}</td>
+                        <td data-title="Grade">{{o.Grade}}</td>
+                    </tr>
+                    <tr ng-show="subjectInformation.StudentGrades.length == 0">
+                        <td colspan="2">No student data!</td>
+                    </tr>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end : subject information -->

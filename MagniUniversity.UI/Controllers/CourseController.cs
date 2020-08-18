@@ -16,7 +16,7 @@ namespace MagniUniversity.UI.Controllers
         [HttpGet]
         public JsonResult Index()
         {
-            var listCourse = _courseServ.List();
+            var listCourse = _courseServ.ListCourseDetail();
             return Json(listCourse, JsonRequestBehavior.AllowGet);
         }
 

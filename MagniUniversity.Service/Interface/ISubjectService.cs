@@ -7,5 +7,6 @@ namespace MagniUniversity.Service.Interface
     {
         Subject Save(Subject command);
         Subject GetWithStudentsIds(int id);
+        SubjectInformation GetSubjecInformation(int id);
     }
 }

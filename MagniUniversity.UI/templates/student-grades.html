@@ -1,0 +1,22 @@
+﻿<!-- begin : grade -->
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">Student Grades</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tr ng-repeat="o in gradeList">
+            <td data-title="SubjectTitle">{{ o.SubjectTitle }}</td>
+            <td data-title="Grade">{{o.Grade}}</td>
+        </tr>
+        <tr ng-show="gradeList.length > 0">
+            <td colspan="2">No data!</td>
+        </tr>
+    </table>
+</div>
+<!-- end : grade -->

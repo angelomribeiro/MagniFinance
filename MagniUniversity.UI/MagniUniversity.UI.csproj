@@ -186,6 +186,8 @@
     <Content Include="app\js\bootstrap.min.js" />
     <Content Include="app\js\jquery.js" />
     <Content Include="app\js\loading-bar.js" />
+    <Content Include="app\services\subjectService.js" />
+    <Content Include="app\services\studentService.js" />
     <Content Include="app\services\crudBaseService.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

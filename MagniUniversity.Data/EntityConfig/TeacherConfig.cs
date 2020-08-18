@@ -11,15 +11,15 @@ namespace MagniUniversity.Data.EntityConfig
 
             HasKey(p => p.TeacherId)
                 .Property(p => p.TeacherId)
-                .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed);
+                .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
 
             Property(p => p.Name)
                 .IsRequired()
-                .HasColumnType("varchar(100)");
+                .HasMaxLength(100);
 
             Property(p => p.Salary)
                 .IsRequired()
-                .HasColumnType("decimal(10,2)");
+                .HasPrecision(12, 2);
 
             Property(p => p.BirthDay)
                 .IsRequired()

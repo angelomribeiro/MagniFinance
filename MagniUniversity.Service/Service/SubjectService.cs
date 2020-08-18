@@ -18,6 +18,11 @@ namespace MagniUniversity.Service.Service
             _repEnrollment = repEnrollment;
         }
 
+        public SubjectInformation GetSubjecInformation(int id)
+        {
+            return _rep.GetSubjecInformation(id);
+        }
+
         public Subject GetWithStudentsIds(int id)
         {
             var subject = _rep.GetById(id);

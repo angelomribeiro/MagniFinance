@@ -1,8 +1,8 @@
 ﻿'use strict';
-
-app.controller('studentController', ['$scope', 'crudBaseService', function ($scope, crudBaseService) {
+app.controller('studentController', ['$scope', 'crudBaseService', 'studentService', function ($scope, crudBaseService, studentService) {
     
     $scope.objectList = [];
+    $scope.gradeList = [];
     $scope.msgError = "";
     $scope.formData = {};
     $scope.showForm = false;
@@ -96,6 +96,26 @@ app.controller('studentController', ['$scope', 'crudBaseService', function ($sco
         $scope.showForm = false;
         _setDefaultModel();                
     }
+
+    $scope.ShowGrades = function (id) {
+        $scope.GetGradeList($scope, id);
+    };
+
+    $scope.GetGradeList = function ($scope, id) {
+
+        $scope.gradeList = [];
+        studentService.GetGradesByStudentId(id).then(function (results) {
+            $scope.gradeList = results.data;
+
+            var dlgElem = angular.element("#gradeStudentModal");
+            if (dlgElem) {
+                dlgElem.modal("show");
+            }
+
+        }, function (error) {
+            bootbox.alert(error.data.message);
+        });
+    };
 
     $scope.List();
     _setDefaultModel();

@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace MagniUniversity.Data.Context
 {
-    public class MagniUniversityInitializer : System.Data.Entity.CreateDatabaseIfNotExists<MagniUniversityContext>
+    public class MagniUniversityInitializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<MagniUniversityContext>
     {
         protected override void Seed(MagniUniversityContext context)
         {
@@ -56,10 +56,10 @@ namespace MagniUniversity.Data.Context
             #endregion
 
             #region enrollment
-            var enrollment1 = new Enrollment() { Student = student1, Subject = subject1, Grade = "A" };
-            var enrollment2 = new Enrollment() { Student = student1, Subject = subject2, Grade = "A+" };
-            var enrollment3 = new Enrollment() { Student = student2, Subject = subject1, Grade = "B" };
-            var enrollment4 = new Enrollment() { Student = student2, Subject = subject2, Grade = "A+" };
+            var enrollment1 = new Enrollment() { Student = student1, Subject = subject1, Grade = 7.5M };
+            var enrollment2 = new Enrollment() { Student = student1, Subject = subject2, Grade = 6M };
+            var enrollment3 = new Enrollment() { Student = student2, Subject = subject1, Grade = 8M };
+            var enrollment4 = new Enrollment() { Student = student2, Subject = subject2, Grade = 10M };
 
             if (!context.Enrollments.Any())
             {
@@ -70,7 +70,7 @@ namespace MagniUniversity.Data.Context
             }
             #endregion
 
-            base.Seed(context);
+            context.SaveChanges();
         }
     }
 }

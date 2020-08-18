@@ -11,11 +11,11 @@ namespace MagniUniversity.Data.EntityConfig
 
             HasKey(p => p.StudentId)
                 .Property(p => p.StudentId)
-                .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Computed);
+                .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
 
             Property(p => p.Name)
                 .IsRequired()
-                .HasColumnType("varchar(100)");
+                .HasMaxLength(100);
 
             Property(p => p.RegistrationNumber)
                 .IsRequired();
