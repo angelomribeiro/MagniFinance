@@ -28,6 +28,10 @@ app.config(function ($routeProvider) {
         controller: "subjectController",
         templateUrl: "/templates/subject.html"
     });
+    $routeProvider.when("/grade", {
+        controller: "gradeController",
+        templateUrl: "/templates/grade.html"
+    });
     $routeProvider.when("/home", {
         controller: "subjectController",
         templateUrl: "/templates/subject.html"

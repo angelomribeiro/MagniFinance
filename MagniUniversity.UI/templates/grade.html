@@ -1,0 +1,40 @@
+﻿<h2>
+    Grade
+</h2>
+
+<div class="alert alert-danger" ng-show="msgError.length > 0">
+    {{msgError}}
+</div>
+
+<!-- begin : list -->
+<div class="panel panel-default" id="no-more-tables">
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Subject</th>
+                <th>Student</th>
+                <th class="actionColumn">Grade</th>
+                <th class="actionColumn"></th>
+            </tr>
+        </thead>
+        <tr ng-repeat="o in objectList">
+            <td data-title="Course Title">{{ o.Subject.Course.Title }}</td>
+            <td data-title="Subject Title">{{ o.Subject.Title }}</td>
+            <td data-title="Student Name">{{ o.Student.Name }}</td>
+            <td>
+                <input type="text" class="form-control" data-ng-model="o.Grade" maxlength="6" required="" ui-number-mask="2" />
+            </td>
+            <td class="actionColumn">
+                <button class="btn btn-info btn-xs" ng-click="Save(o)" title="Save Grade"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></button>
+                <button class="btn btn-danger btn-xs" ng-click="Remove(o.EnrollmentId)" title="Remove Grade"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+            </td>
+        </tr>
+        <tr ng-show="objectList.length == 0">
+            <td colspan="5">
+                No data!
+            </td>
+        </tr>
+    </table>
+</div>
+<!-- end : list -->

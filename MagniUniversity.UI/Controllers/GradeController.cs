@@ -1,17 +1,18 @@
 ﻿using MagniUniversity.Domain.Model;
 using MagniUniversity.Service.Interface;
+using Newtonsoft.Json;
 using System;
 using System.Web.Mvc;
 
 namespace MagniUniversity.UI.Controllers
 {
-    public class CourseController : Controller
+    public class GradeController : Controller
     {
-        private readonly ICourseService _courseServ;
+        private readonly IEnrollmentService _service;
 
-        public CourseController(ICourseService courseServ)
+        public GradeController(IEnrollmentService service)
         {
-            _courseServ = courseServ;
+            _service = service;
         }
 
         [HttpGet]
@@ -19,30 +20,24 @@ namespace MagniUniversity.UI.Controllers
         {
             try
             {
-                var listCourse = _courseServ.ListCourseDetail();
-                return Json(listCourse, JsonRequestBehavior.AllowGet);
+                var list = _service.List();
+                return Json(list, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 Response.StatusCode = 500;
                 return Json(new { error_message = "Error: " + ex.Message }, JsonRequestBehavior.AllowGet);
-            }            
+            }
         }
 
         [HttpPost]
-        public JsonResult Save(Course model) 
+        public JsonResult Save(Enrollment model)
         {
             try
             {
-                if (model.CourseId == 0)
-                {
-                    _courseServ.Add(model);
-                }
-                else
-                {
-                    _courseServ.Update(model);
-                }
-                
+                model.Student = null;
+                model.Subject = null;
+                var retModel = _service.Save(model);
                 return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -57,7 +52,7 @@ namespace MagniUniversity.UI.Controllers
         {
             try
             {
-                _courseServ.Remove(id);                
+                _service.Remove(id);
                 return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)

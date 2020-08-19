@@ -3,7 +3,6 @@ using MagniUniversity.Domain.Repository;
 using MagniUniversity.Service.Interface;
 using MagniUniversity.Domain.Model;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 namespace MagniUniversity.Service.Service
 {
@@ -55,6 +54,39 @@ namespace MagniUniversity.Service.Service
                         SubjectId = subject.SubjectId,
                         StudentId = item
                     });
+            } 
+            else
+            {
+                // remove all enrolment
+                foreach(var enroll in listEnrollment)
+                {
+                    _repEnrollment.Remove(enroll.EnrollmentId);
+                }
+
+                // add news or old enrolments
+                foreach (var item in command.Students)
+                {
+                    var oldRecord = listEnrollment.Where(w => w.StudentId == item).FirstOrDefault();
+                    // check if is old record
+                    if (oldRecord != null)
+                    {
+                        // add new enrollment using old data
+                        _repEnrollment.Add(new Enrollment
+                        {
+                            SubjectId = subject.SubjectId,
+                            StudentId = item,
+                            Grade = oldRecord.Grade
+                        });
+                    }
+                    else
+                    {
+                        _repEnrollment.Add(new Enrollment
+                        {
+                            SubjectId = subject.SubjectId,
+                            StudentId = item
+                        });
+                    }
+                }
             }
 
             return subject;

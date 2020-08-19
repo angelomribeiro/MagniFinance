@@ -20,6 +20,7 @@ namespace MagniUniversity.UI.App_Start
             builder.RegisterType<SubjectService>().As<ISubjectService>();
             builder.RegisterType<TeacherService>().As<ITeacherService>();
             builder.RegisterType<StudentService>().As<IStudentService>();
+            builder.RegisterType<EnrollmentService>().As<IEnrollmentService>();
             builder.RegisterType<MagniUniversityContext>().InstancePerRequest();
 
             builder.RegisterType<CourseRepository>().As<ICourseRepository>();

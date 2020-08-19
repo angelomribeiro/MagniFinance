@@ -1,4 +1,7 @@
-﻿<h2>Student</h2>
+﻿<h2>
+    Student
+    <input type="button" class="btn btn-info btn-sm" value="New Course" ng-click="OpenForm(formData)" style="float:right;" ng-show="!showForm">
+</h2>
 
 <div class="alert alert-danger" ng-show="msgError.length > 0">
     {{msgError}}
@@ -36,16 +39,8 @@
 </div>
 <!-- end : form -->
 
-<div class="panel panel-default" ng-show="!showForm">
-    <div class="panel-body">
-        <div class="text-right">
-            <input type="button" class="btn btn-info" value="New" ng-click="OpenForm(formData)">
-        </div>
-    </div>
-</div>
-
 <!-- begin : list -->
-<div class="panel panel-default" ng-show="objectList.length > 0" id="no-more-tables">
+<div class="panel panel-default" id="no-more-tables">
     <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
@@ -68,6 +63,11 @@
                 <button class="btn btn-danger btn-xs" ng-click="Remove(o.StudentId)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
             </td>
         </tr>
+        <tr ng-show="objectList.length == 0">
+            <td colspan="5">
+                No data!
+            </td>
+        </tr>
     </table>
 </div>
 <!-- end : list -->
@@ -75,6 +75,10 @@
 <div id="gradeStudentModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Student Grade</h4>
+            </div>
             <div class="modal-body">
                 <table class="table table-bordered table-striped table-hover">
                     <thead>
@@ -85,13 +89,13 @@
                     </thead>
                     <tr ng-repeat="o in gradeList">
                         <td data-title="SubjectTitle">{{ o.SubjectTitle }}</td>
-                        <td data-title="Grade">{{o.Grade}}</td>
+                        <td data-title="Grade">{{o.Grade | number:2 }}</td>
                     </tr>
                     <tr ng-show="gradeList.length == 0">
                         <td colspan="2">No data!</td>
                     </tr>
                 </table>
-            </div>            
+            </div>
         </div>
     </div>
 </div>

@@ -9,11 +9,15 @@ app.controller('studentController', ['$scope', 'crudBaseService', 'studentServic
 
     crudBaseService.SetAlias('student');
 
-    $scope.GetList = function ($scope) {
+    $scope.GetList = function () {
         crudBaseService.GetList().then(function (results) {
-            $scope.objectList = results.data;
+            if (results.data.error_message) {
+                $scope.msgError = results.data.error_message;
+            } else {
+                $scope.objectList = results.data;
+            }
         }, function (error) {
-            bootbox.alert(error.data.message);
+            $scope.msgError = error;
         });
     };
 
@@ -46,24 +50,19 @@ app.controller('studentController', ['$scope', 'crudBaseService', 'studentServic
         }
 
         if ($scope.msgError.length == 0) {
-            var $req;
-            $req = crudBaseService.Save(objForm);
-
-            $req.success(function () {
-                bootbox.alert("Success!");
-                $scope.List();
-                // clean form
-                _setDefaultModel();
-                $scope.showForm = false;
-            })
-            .error(function () {
-                bootbox.alert("Error!");
+            crudBaseService.Save(objForm).then(function (results) {
+                if (results.data.error_message) {
+                    $scope.msgError = results.data.error_message;
+                } else {
+                    bootbox.alert("Success!");
+                    $scope.GetList();
+                    _setDefaultModel();
+                    $scope.showForm = false;
+                }
+            }, function (error) {
+                $scope.msgError = error;
             });
         }      
-    };
-
-    $scope.List = function () {
-        $scope.GetList($scope);
     };
 
     $scope.EditForm = function (c) {
@@ -72,6 +71,19 @@ app.controller('studentController', ['$scope', 'crudBaseService', 'studentServic
     };
 
     $scope.Remove = function (id) {
+
+        crudBaseService.Remove(id).then(function (results) {
+            if (results.data.error_message) {
+                $scope.msgError = results.data.error_message;
+            } else {
+                bootbox.alert("Success!");
+                $scope.GetList();
+                _setDefaultModel();
+            }
+        }, function (error) {
+            $scope.msgError = error;
+        });
+
         var $req;
         $req = crudBaseService.Remove(id);
 
@@ -92,7 +104,6 @@ app.controller('studentController', ['$scope', 'crudBaseService', 'studentServic
     }
 
     $scope.Cancel = function () {
-        // clean form
         $scope.showForm = false;
         _setDefaultModel();                
     }
@@ -104,20 +115,23 @@ app.controller('studentController', ['$scope', 'crudBaseService', 'studentServic
     $scope.GetGradeList = function ($scope, id) {
 
         $scope.gradeList = [];
+
         studentService.GetGradesByStudentId(id).then(function (results) {
-            $scope.gradeList = results.data;
-
-            var dlgElem = angular.element("#gradeStudentModal");
-            if (dlgElem) {
-                dlgElem.modal("show");
+            if (results.data.error_message) {
+                $scope.msgError = results.data.error_message;
+            } else {
+                $scope.gradeList = results.data;
+                var dlgElem = angular.element("#gradeStudentModal");
+                if (dlgElem) {
+                    dlgElem.modal("show");
+                }
             }
-
         }, function (error) {
-            bootbox.alert(error.data.message);
+            $scope.msgError = error;
         });
     };
 
-    $scope.List();
+    $scope.GetList();
     _setDefaultModel();
 
     var isDate = function (date) {

@@ -1,6 +1,7 @@
 ﻿using MagniUniversity.Domain.Model;
 using MagniUniversity.Service.Interface;
 using Newtonsoft.Json;
+using System;
 using System.Web.Mvc;
 
 namespace MagniUniversity.UI.Controllers
@@ -17,37 +18,71 @@ namespace MagniUniversity.UI.Controllers
         [HttpGet]
         public ContentResult Index()
         {
-            var list = _service.List();
-            return Content(JsonConvert.SerializeObject(list), "application/json");
+            try
+            {
+                var list = _service.List();
+                return Content(JsonConvert.SerializeObject(list), "application/json");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Content(JsonConvert.SerializeObject(new { error_message = "Error: " + ex.Message }));
+            }            
         }
 
         [HttpPost]
         public JsonResult Save(Student model) 
         {
-            if (model.StudentId == 0)
+            try
             {
-                _service.Add(model);
+                if (model.StudentId == 0)
+                {
+                    _service.Add(model);
+                }
+                else
+                {
+                    _service.Update(model);
+                }
+
+                return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
             }
-            else
+            catch (Exception ex)
             {
-                _service.Update(model);
+                Response.StatusCode = 500;
+                return Json(new { error_message = "Error: " + ex.Message }, JsonRequestBehavior.AllowGet);
             }
-            
-            return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpDelete]
         public JsonResult Remove(int id)
         {
-            _service.Remove(id);
-            return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                _service.Remove(id);
+                return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Json(new { error_message = "Error: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+            
         }
 
         [HttpGet]
         public ContentResult Grades(int id)
         {
-            var list = _service.ListGradeByStudentId(id);
-            return Content(JsonConvert.SerializeObject(list), "application/json");
+            try
+            {
+                var list = _service.ListGradeByStudentId(id);
+                return Content(JsonConvert.SerializeObject(list), "application/json");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Content(JsonConvert.SerializeObject(new { error_message = "Error: " + ex.Message }));
+            }
+            
         }
     }
 }

@@ -162,6 +162,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\GradeController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\SubjectController.cs" />
     <Compile Include="Global.asax.cs">
@@ -173,6 +174,7 @@
   <ItemGroup>
     <Content Include="app\app.js" />
     <Content Include="app\controllers\studentController.js" />
+    <Content Include="app\controllers\gradeController.js" />
     <Content Include="app\controllers\teacherController.js" />
     <Content Include="app\controllers\courseController.js" />
     <Content Include="app\controllers\subjectController.js" />
@@ -212,6 +214,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="templates\student.html" />
+    <Content Include="templates\grade.html" />
     <Content Include="templates\teacher.html" />
     <Content Include="templates\course.html" />
     <Content Include="templates\subject.html" />

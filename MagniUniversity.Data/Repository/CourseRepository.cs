@@ -18,21 +18,23 @@ namespace MagniUniversity.Data.Repository
                           join s in _db.Subjects on e.SubjectId equals s.SubjectId
                           join c in _db.Courses on s.CourseId equals c.CourseId
                           join t in _db.Teachers on s.TeacherId equals t.TeacherId
-                          select new { c.CourseId, s.SubjectId, t.TeacherId, e.StudentId, e.Grade } );
+                          select new { c.CourseId, s.SubjectId, t.TeacherId, e.StudentId, e.Grade } ).ToList();
 
             List<CourseDetail> listDetail = new List<CourseDetail>();
             foreach (var course in _db.Courses.ToList())
             {
-                listDetail.Add(new CourseDetail { 
-                    CourseId = course.CourseId,
-                    Title = course.Title,
-                    TeachersNumber = coursesAllData.Where(w => w.CourseId == course.CourseId)
-                        .Select(s => s.TeacherId).Distinct().Count(),
-                    StudentsNumber = coursesAllData.Where(w => w.CourseId == course.CourseId)
-                        .Select(s => s.StudentId).Distinct().Count(),
-                    GradeAvg = coursesAllData.Where(w => w.CourseId == course.CourseId)
-                        .Select(s => s.Grade).Average()
-                });
+                var curseDetail = new CourseDetail();
+                curseDetail.CourseId = course.CourseId;
+                curseDetail.Title = course.Title;
+                curseDetail.TeachersNumber = coursesAllData.Where(w => w.CourseId == course.CourseId)
+                        .Select(s => s.TeacherId).Distinct().Count();
+                curseDetail.StudentsNumber = coursesAllData.Where(w => w.CourseId == course.CourseId)
+                        .Select(s => s.StudentId).Distinct().Count();
+                curseDetail.GradeAvg = coursesAllData.Where(w => w.CourseId == course.CourseId).Select(s => s.Grade).Count() == 0 ? 
+                    0M : 
+                    coursesAllData.Where(w => w.CourseId == course.CourseId).Select(s => s.Grade).Average();
+
+                listDetail.Add(curseDetail);
             }
 
             return listDetail;

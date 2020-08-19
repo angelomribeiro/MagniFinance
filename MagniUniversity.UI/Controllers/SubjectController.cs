@@ -1,6 +1,7 @@
 ﻿using MagniUniversity.Domain.Model;
 using MagniUniversity.Service.Interface;
 using Newtonsoft.Json;
+using System;
 using System.Web.Mvc;
 
 namespace MagniUniversity.UI.Controllers
@@ -17,37 +18,78 @@ namespace MagniUniversity.UI.Controllers
         [HttpGet]
         public JsonResult Index()
         {
-            var listSubject = _service.List();
-            return Json(listSubject, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var listSubject = _service.List();
+                return Json(listSubject, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Json(new { error_message = "Error: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }
         }
 
         [HttpGet]
         public JsonResult Detail(int id)
         {
-            var listSubject = _service.GetWithStudentsIds(id);
-            return Json(listSubject, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var listSubject = _service.GetWithStudentsIds(id);
+                return Json(listSubject, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Json(new { error_message = "Error: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }            
         }
 
         [HttpPost]
         public JsonResult Save(Subject model) 
         {
-            model.Teacher = null;
-            var retModel = _service.Save(model);
-            return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                model.Teacher = null;
+                model.Course = null;
+                var retModel = _service.Save(model);
+                return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Json(new { error_message = "Error: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }            
         }
 
         [HttpDelete]
         public JsonResult Remove(int id)
         {
-            _service.Remove(id);
-            return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
+            try
+            {
+                _service.Remove(id);
+                return Json(new { Status = "Ok" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Json(new { error_message = "Error: " + ex.Message }, JsonRequestBehavior.AllowGet);
+            }            
         }
 
         [HttpGet]
         public ContentResult Information(int id)
         {
-            var list = _service.GetSubjecInformation(id);
-            return Content(JsonConvert.SerializeObject(list), "application/json");
+            try
+            {
+                var list = _service.GetSubjecInformation(id);
+                return Content(JsonConvert.SerializeObject(list), "application/json");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Content(JsonConvert.SerializeObject(new { error_message = "Error: " + ex.Message }));
+            }            
         }
     }
 }

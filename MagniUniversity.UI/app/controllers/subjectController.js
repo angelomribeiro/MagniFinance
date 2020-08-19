@@ -4,6 +4,7 @@ app.controller('subjectController', ['$scope', 'crudBaseService', 'subjectServic
     
     $scope.objectList = [];
     $scope.objectTeacherList = [];
+    $scope.objectCourseList = [];
     $scope.subjectInformation = {};
     $scope.msgError = "";
     $scope.formData = {};
@@ -15,12 +16,16 @@ app.controller('subjectController', ['$scope', 'crudBaseService', 'subjectServic
     var studentAlias = 'student';
     var courseAlias = 'course';
 
-    $scope.GetList = function ($scope) {
+    $scope.GetList = function () {
         crudBaseService.SetAlias(subjectAlias);
         crudBaseService.GetList().then(function (results) {
-            $scope.objectList = results.data;
+            if (results.data.error_message) {
+                $scope.msgError = results.data.error_message;
+            } else {
+                $scope.objectList = results.data;
+            }
         }, function (error) {
-            bootbox.alert(error.data.message);
+            $scope.msgError = error;
         });
     };
 
@@ -34,25 +39,29 @@ app.controller('subjectController', ['$scope', 'crudBaseService', 'subjectServic
         crudBaseService.SetAlias(subjectAlias);
         crudBaseService.GetById(id).then(function (results) {
 
-            $scope.formData = {
-                SubjectId: results.data.SubjectId,
-                Title: results.data.Title,
-                TeacherId: results.data.TeacherId,
-                CourseId: results.data.CourseId
-            };
+            if (results.data.error_message) {
+                $scope.msgError = results.data.error_message;
+            } else {
+                $scope.formData = {
+                    SubjectId: results.data.SubjectId,
+                    Title: results.data.Title,
+                    TeacherId: results.data.TeacherId,
+                    CourseId: results.data.CourseId
+                };
 
-            var arrStudents = results.data.Students;
+                var arrStudents = results.data.Students;
 
-            if (arrStudents.length > 0) {
-                angular.forEach($scope.studentsForm, function (item) {
-                    if (arrStudents.includes(item.StudentId)) {
-                        item.Selected = true;
-                    }
-                });
-            }
+                if (arrStudents.length > 0) {
+                    angular.forEach($scope.studentsForm, function (item) {
+                        if (arrStudents.includes(item.StudentId)) {
+                            item.Selected = true;
+                        }
+                    });
+                }
+            } 
 
         }, function (error) {
-            bootbox.alert(error.data.message);
+                $scope.msgError = error;
         });
     }
     
@@ -70,6 +79,7 @@ app.controller('subjectController', ['$scope', 'crudBaseService', 'subjectServic
         });
 
         $scope.subjectInformation = {};
+        $scope.showForm = false;
     };
 
     $scope.Save = function () {        
@@ -95,18 +105,17 @@ app.controller('subjectController', ['$scope', 'crudBaseService', 'subjectServic
         }
 
         if ($scope.msgError.length == 0) {
-            var $req;
-            $req = crudBaseService.Save(objForm);
 
-            $req.success(function () {
-                bootbox.alert("Success!");
-                $scope.GetList($scope);
-                // clean form
-                _setDefaultModel();
-                $scope.showForm = false;
-            })
-            .error(function () {
-                bootbox.alert("Error!");
+            crudBaseService.Save(objForm).then(function (results) {
+                if (results.data.error_message) {
+                    $scope.msgError = results.data.error_message;
+                } else {
+                    bootbox.alert("Success!");
+                    $scope.GetList();
+                    _setDefaultModel();
+                }
+            }, function (error) {
+                $scope.msgError = error;
             });
         }      
     };
@@ -121,17 +130,16 @@ app.controller('subjectController', ['$scope', 'crudBaseService', 'subjectServic
 
     $scope.Remove = function (id) {
         crudBaseService.SetAlias(subjectAlias);
-        var $req;
-        $req = crudBaseService.Remove(id);
-
-        $req.success(function () {
-            bootbox.alert("Success!");
-            $scope.List();
-            // clean form
-            _setDefaultModel();
-        })
-        .error(function () {
-            bootbox.alert("Error!");
+        crudBaseService.Remove(id).then(function (results) {
+            if (results.data.error_message) {
+                $scope.msgError = results.data.error_message;
+            } else {
+                bootbox.alert("Success!");
+                $scope.GetList();
+                _setDefaultModel();
+            }
+        }, function (error) {
+            $scope.msgError = error;
         });
     };
 
@@ -153,67 +161,80 @@ app.controller('subjectController', ['$scope', 'crudBaseService', 'subjectServic
     }
 
     /* begin : teacher */
-    $scope.GetTeacherList = function ($scope) {
+    $scope.GetTeacherList = function () {
         crudBaseService.SetAlias(teacherAlias);
         crudBaseService.GetList().then(function (results) {
-            $scope.objectTeacherList = results.data;
+            if (results.data.error_message) {
+                $scope.msgError = results.data.error_message;
+            } else {
+                $scope.objectTeacherList = results.data;
+            }               
         }, function (error) {
-            bootbox.alert(error.data.message);
+            $scope.msgError = error;
         });
     };
     /* end : teacher */
 
     /* begin : student */
-    $scope.GetStudentList = function ($scope) {
+    $scope.GetStudentList = function () {
         crudBaseService.SetAlias(studentAlias);
         crudBaseService.GetList().then(function (results) {
-            $scope.studentsForm = [];
-            angular.forEach(results.data, function (item) {
-                $scope.studentsForm.push({
-                    StudentId: item.StudentId,
-                    Name: item.Name,
-                    Selected: false
+            if (results.data.error_message) {
+                $scope.msgError = results.data.error_message;
+            } else {
+                $scope.studentsForm = [];
+                angular.forEach(results.data, function (item) {
+                    $scope.studentsForm.push({
+                        StudentId: item.StudentId,
+                        Name: item.Name,
+                        Selected: false
+                    });
                 });
-            });
-
+            } 
         }, function (error) {
-            bootbox.alert(error.data.message);
+            $scope.msgError = error;
         });
     };
     /* end : student */
 
     /* begin : course */
-    $scope.GetCourseList = function ($scope) {
+    $scope.GetCourseList = function () {
         crudBaseService.SetAlias(courseAlias);
         crudBaseService.GetList().then(function (results) {
-            $scope.objectCourseList = results.data;
+            if (results.data.error_message) {
+                $scope.msgError = results.data.error_message;
+            } else {
+                $scope.objectCourseList = results.data;
+            }             
         }, function (error) {
-            bootbox.alert(error.data.message);
+            $scope.msgError = error;
         });
     };
     /* end : course */
 
     /* begin : subject information */
     $scope.GetSubjectInformation = function (id) {
-        debugger;
         subjectService.GetSubjectInformation(id).then(function (results) {
-            $scope.subjectInformation = results.data;
+            if (results.data.error_message) {
+                $scope.msgError = results.data.error_message;
+            } else {
+                $scope.subjectInformation = results.data;
 
-            var dlgElem = angular.element("#subjectInformationModal");
-            if (dlgElem) {
-                dlgElem.modal("show");
-            }
-            
+                var dlgElem = angular.element("#subjectInformationModal");
+                if (dlgElem) {
+                    dlgElem.modal("show");
+                }
+            }    
         }, function (error) {
-            bootbox.alert(error.data.message);
+                $scope.msgError = error;
         });
     };
     /* end : subject information */
 
-    $scope.GetList($scope);
-    $scope.GetTeacherList($scope);
-    $scope.GetStudentList($scope);
-    $scope.GetCourseList($scope);
+    $scope.GetList();
+    $scope.GetTeacherList();
+    $scope.GetStudentList();
+    $scope.GetCourseList();
     _setDefaultModel();
 
 }]);

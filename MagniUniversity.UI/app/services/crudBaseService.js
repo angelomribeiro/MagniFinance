@@ -5,17 +5,28 @@ app.factory('crudBaseService', ['$http', function ($http) {
     var strAlias = '';
 
     var _getList = function () {
-        return $http.get('/' + strAlias).then(function (results) {
-            return results;
-        });
+        return $http.get('/' + strAlias)
+            .then(function (results) {
+                return results;
+            }, function (err) {
+                return err;
+            });
     };
 
     var _save = function (c) {
-        return $http.post('/' + strAlias + '/save', c, { headers: { 'Content-Type': 'application/json' } });
+        return $http.post('/' + strAlias + '/save', c, { headers: { 'Content-Type': 'application/json' } }).then(function (results) {
+            return results;
+        }, function (err) {
+            return err;
+        });
     };
 
     var _remove = function (id) {
-        return $http.delete('/' + strAlias + '/remove?id=' + id, { headers: { 'Content-Type': 'application/json' } });
+        return $http.delete('/' + strAlias + '/remove?id=' + id, { headers: { 'Content-Type': 'application/json' } }).then(function (results) {
+            return results;
+        }, function (err) {
+            return err;
+        });
     };
 
     var _setAlias = function (alias) {
@@ -25,6 +36,8 @@ app.factory('crudBaseService', ['$http', function ($http) {
     var _getById = function (id) {
         return $http.get('/' + strAlias + '/detail?id=' + id).then(function (results) {
             return results;
+        }, function (err) {
+            return err;
         });
     };
 
